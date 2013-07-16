@@ -26,13 +26,11 @@ public class UserInfoQueryFrame extends JFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 	private JPanel jContentPane = new JPanel();
-	private UserInfo u = null;
-	private Socket s = null;
+	private UserInfo u = UserInfo.getInstance();
+	private Socket s = ;
 
-	public UserInfoQueryFrame(Socket s, UserInfo u) {
+	public UserInfoQueryFrame() {
 		super();
-		this.s = s;
-		this.u = u;
 		initialize();
 	}
 //	public UserInfoQueryFrame(Socket s, UserInfo u) {

@@ -2,6 +2,7 @@ package cn.edu.bjtu.chat.v;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.GraphicsEnvironment;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -89,6 +90,20 @@ public class P2PChat  extends JFrame{
 		JLabel mpic = new JLabel("我的头像");
 		mpic.setBounds(355, 225, 149, 136);
 		getContentPane().add(mpic);
+		
+		JButton fontButton = new JButton("字体");
+		fontButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new FontFrame();
+			}
+		});
+		
+		fontButton.setBounds(0, 223, 70, 23);
+		getContentPane().add(fontButton);
+		
+		JLabel property = new JLabel("  ");
+		property.setBounds(0, 225, 352, 19);
+		getContentPane().add(property);
 		this.setSize(520,400);
 		this.setDefaultCloseOperation(3);
 		this.setTitle("QQ 正在聊天："+u.getName());
@@ -109,5 +124,4 @@ public class P2PChat  extends JFrame{
 	public void updateNewMessage(Message msg) {
 		//更新新的message
 	}
-	
 }

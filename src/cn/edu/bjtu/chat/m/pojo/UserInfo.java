@@ -105,6 +105,9 @@ public class UserInfo {
 		this.createtime = createtime;
 	}
 	
+	public String getPower() {
+		return power;
+	}
 	public boolean isAdmin() {
 		return this.power.equals("1");
 	}
@@ -115,13 +118,13 @@ public class UserInfo {
 		//* 同步代码，不用分线程，发送之后立刻回复数据 *//
 		
 		//登陆请求
-		String request = "101|"+this.getName()+"\\|\\|"+this.getPassw();
+		String request = "101|"+this.getName()+"||"+this.getPassw();
 		Network.getInstance().sendString(request);
 		//登陆返回 - 更新数据
 		String response = Network.getInstance().receiveString();
 		int index = response.indexOf("|");
 		String head = response.substring(0,index);
-		UserInfo u = new UserInfo();
+		UserInfo u = UserInfo.getInstance();
 		
 		boolean loginSuccess = true;
 		if(head.equals("true")){
@@ -143,8 +146,32 @@ public class UserInfo {
 	}
 	
 	
-	public void requestRegister(){
+	public boolean requestRegister(){
+		//注册 102/用户名/密码/昵称/邮箱 /性别/年龄/个人签名
+		String request = "102|"+this.getName()+"||"+
+		        this.getPassw() + "||" +
+				this.getPetname() +"||" +
+				this.getMail() + "||" +
+				this.getSex() + "||" + //性别有问题
+				String.valueOf(this.getAge()) + "||" +
+				this.getInfo() + "||";
+		Network.getInstance().sendString(request);
+		//登陆返回 - 更新数据
+		String response = Network.getInstance().receiveString();
+		int index = response.indexOf("|");
+		String head = response.substring(0,index);
+		UserInfo u = UserInfo.getInstance();
 		
+		boolean registerSuccess = true;
+//		if(head.equals("true")){
+//		}
+//		else {
+//			registerSuccess = false;
+//		}
+		if (!head.equals("true")) {
+			registerSuccess = false;
+		}
+		return registerSuccess;
 	}
 }
 

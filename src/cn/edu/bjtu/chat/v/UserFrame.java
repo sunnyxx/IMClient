@@ -66,8 +66,7 @@ public class UserFrame extends JFrame {
 	 private DefaultMutableTreeNode dmtnBlackName = null;
 	 // 设置节点(此节点为好友列表节点)
 	 private DefaultMutableTreeNode dmtnLeaf = null;
-	 private DefaultMutableTreeNode dmtnGroup = null; 
-     
+	 private DefaultMutableTreeNode dmtnGroup = null;
     
 	/**
 	 * This is the default constructor
@@ -145,13 +144,6 @@ public class UserFrame extends JFrame {
 			infoL.setBounds(152, 51, 131, 18);
 			jContentPane.add(infoL);
 			infoL.setColumns(10);
-			
-			
-			//this.setJMenuBar(remindmenu);
-			
-			//jContentPane.add(getJPanel(), null);
-			//jContentPane.add(remindPanel);
-		
 		}
 		return jContentPane;
 	}
@@ -168,51 +160,51 @@ public class UserFrame extends JFrame {
 			picButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					try {
-						String request = "106|"+userInfo.getName();
-						PrintStream p = new PrintStream(s.getOutputStream());
-						p.println(request);
-						p.flush();
-						//接收服务器端的回值
-						//System.out.println("接收服务器端的回值");
-						InputStreamReader i =new InputStreamReader(s.getInputStream());
-						BufferedReader b = new BufferedReader(i);
-						String response = b.readLine();
-						
-						int index = response.indexOf("|");
-						String head = response.substring(0,index);
-						//查询用户信息  根据用户的昵称
-						//查询用户信息的协议 106|状态\0昵称\0ID\0姓名\0个人签名\0性别\0邮箱\0年龄\0注册时间\0权限
-						if(head.equals("true")){
-							String ss = response.substring(index+1);
-							String v[] = ss.split("\\|\\|");
-							
-							userInfo.setState(Integer.parseInt(v[0]));
-							userInfo.setPetname(v[1]);
-							userInfo.setId(Integer.parseInt(v[2]));
-							userInfo.setName(v[3]);
-							userInfo.setInfo(v[4]);
-							userInfo.setSex(v[5]);
-							userInfo.setMail(v[6]);
-							userInfo.setAge(Integer.parseInt(v[7]));
-							
-							SimpleDateFormat df = new SimpleDateFormat("yyyy-mm-dd HH:MM:SS");
-							v[8] = df.format(new Date());
-							Timestamp creaTimestamp = Timestamp.valueOf(v[8]);
-							userInfo.setCreatetime(creaTimestamp);
-							userInfo.setPower(v[9]);
-							
-							new UserInfoQueryFrame(s,userInfo);
-						}
-					} catch (IOException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					} catch (Exception e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-						display("网络连接失败");
-					}
-				}
-			});
+//						String request = "106|"+userInfo.getName();
+//						PrintStream p = new PrintStream(s.getOutputStream());
+//						p.println(request);
+//						p.flush();
+//						//接收服务器端的回值
+//						//System.out.println("接收服务器端的回值");
+//						InputStreamReader i =new InputStreamReader(s.getInputStream());
+//						BufferedReader b = new BufferedReader(i);
+//						String response = b.readLine();
+//						
+//						int index = response.indexOf("|");
+//						String head = response.substring(0,index);
+//						//查询用户信息  根据用户的昵称
+//						//查询用户信息的协议 106|状态\0昵称\0ID\0姓名\0个人签名\0性别\0邮箱\0年龄\0注册时间\0权限
+//						if(head.equals("true")){
+//							String ss = response.substring(index+1);
+//							String v[] = ss.split("\\|\\|");
+//							
+//							userInfo.setState(Integer.parseInt(v[0]));
+//							userInfo.setPetname(v[1]);
+//							userInfo.setId(Integer.parseInt(v[2]));
+//							userInfo.setName(v[3]);
+//							userInfo.setInfo(v[4]);
+//							userInfo.setSex(v[5]);
+//							userInfo.setMail(v[6]);
+//							userInfo.setAge(Integer.parseInt(v[7]));
+//							
+//							SimpleDateFormat df = new SimpleDateFormat("yyyy-mm-dd HH:MM:SS");
+//							v[8] = df.format(new Date());
+//							Timestamp creaTimestamp = Timestamp.valueOf(v[8]);
+//							userInfo.setCreatetime(creaTimestamp);
+//							userInfo.setPower(v[9]);
+//							
+//							new UserInfoQueryFrame(s,userInfo);
+//						}
+//					} catch (IOException e1) {
+//						// TODO Auto-generated catch block
+//						e1.printStackTrace();
+//					} catch (Exception e1) {
+//						// TODO Auto-generated catch block
+//						e1.printStackTrace();
+//						display("网络连接失败");
+//					}
+//				}
+//			});
 		}
 		return picButton;
 	}

@@ -22,9 +22,15 @@ import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
 import cn.edu.bjtu.chat.m.pojo.UserInfo;
+import cn.edu.bjtu.chat.util.Network;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+
+import javax.swing.JTextArea;
+import javax.swing.JScrollPane;
+
+import com.sun.xml.internal.ws.Closeable;
 
 public class RegisterFrame extends JFrame {
 	/**
@@ -43,6 +49,8 @@ public class RegisterFrame extends JFrame {
 	private JTextField textField_age = null;
 	private JTextField textField_info = null;	
 	private ButtonGroup sexGroup = null;
+	private JTextArea textArea_info = null;
+	private JScrollPane scrollPane = null;
 	public RegisterFrame() {
 		super();
 		initialize();
@@ -52,6 +60,10 @@ public class RegisterFrame extends JFrame {
 		JOptionPane.showMessageDialog(this, value);
 	}
 	
+	public void close(){
+		this.setVisible(false);
+	}
+	
 	private void initialize() {
 		//jm = new JFrame("注册");
 		//jm.getContentPane().setLayout(null);
@@ -59,10 +71,7 @@ public class RegisterFrame extends JFrame {
 		this.setContentPane(this.jContentPane);//panel需要加载this这个jframe上
 		//this.setUndecorated(true);
 		//this.getContentPane().add(jContentPane);
-		
-		
 		jContentPane.setBounds(0, 0, 308, 432);
-		
 		jContentPane.setVisible(true);
 		jContentPane.setLayout(null);
 		
@@ -131,36 +140,34 @@ public class RegisterFrame extends JFrame {
 		label_info.setBounds(10, 256, 66, 15);
 		jContentPane.add(label_info);
 		
-		textField_info = new JTextField();
-		textField_info.setBounds(66, 247, 177, 59);
-		textField_info.setColumns(10);
-		jContentPane.add(textField_info);
-		
 		JButton button = new JButton("注册");
 		button.setBounds(26, 387, 70, 24);
-		final JFrame thisFrame = this;
+		
+		textArea_info = new JTextArea();
+		textArea_info.setBounds(66, 252, 280, 177);
+		jContentPane.add(textArea_info);
+		scrollPane = new JScrollPane(textArea_info);
+		jContentPane.add(scrollPane);
+		
 		button.addActionListener(new java.awt.event.ActionListener() {
 		//@SuppressWarnings("deprecation")
-		
+			
 		public void actionPerformed(java.awt.event.ActionEvent e) {
 			try {
 
 				// 102|用户名\0密码\0昵称\0邮箱\0性别\0年龄
-				
 				JTextField fields[] = {
 						textField_name,
 						textField_petname,
 						textField_mail
 				};
 				boolean isAllWriten = true;
-				//System.out.println("22222222222");
 				for (JTextField field : fields) {
 					if (field.getText().trim().equals("")) {
 						isAllWriten = false;
 					}
 				}
 				
-				//System.out.println("111111111");
 				boolean isPasswordOK = true;
 				isPasswordOK = passwordField.getPassword().toString() == passwordField_ack.getPassword().toString();
 				
@@ -184,42 +191,32 @@ public class RegisterFrame extends JFrame {
 //					String vTimestamp = df.format(new Date());
 //					Timestamp creaTimestamp = Timestamp.valueOf(vTimestamp);
 					
-					//注册 102/用户名/密码/昵称/性别/年龄/个人签名
-					String request = "102|"+textField_name.getText().trim()+"||"+
-							passwordField.getText() + "||" +
-							textField_petname.getText().trim() +"||" +
-							textField_mail.getText().trim() + "||" +
-							sex + "||" + //性别有问题
-							textField_age.getText().trim() + "||" +
-							textField_info.getText().trim() + "||";
-					
-							PrintStream p = new PrintStream(s.getOutputStream());
-							p.println(request);
-							p.flush();
-							//System.out.println("flush");
-							//接收服务器端的回值
-							InputStreamReader i =new InputStreamReader(s.getInputStream());
-							BufferedReader b = new BufferedReader(i);
-							String response = b.readLine();
+					//注册 102/用户名/密码/昵称/邮箱 /性别/年龄/个人签名
+					UserInfo userInfo = UserInfo.getInstance();
+					userInfo.setName(textField_name.getText());
+					userInfo.setPassw(passwordField.getPassword().toString());
+					userInfo.setPetname(textField_petname.getText());
+					userInfo.setMail(textField_mail.getText());
+					userInfo.setSex(sex);
+					userInfo.setAge(Integer.parseInt(textField_age.getText()));
+					userInfo.setInfo(textField_info.getText());
 							
-							int index = response.indexOf("|");
-							String head = response.substring(0,index);
-							//System.out.println("lianjie");
-							if(head.equals("true"))
-							{
-								display("注册成功！");
-								//System.out.println("success");
-								//显示在用户主界面
-								UserInfo u = new UserInfo();
-								u.setName(textField_name.getName());
-//								u.setPetname(textField_petname.getText().trim());
-//								u.setInfo(textField_info.getText().trim());
-//								thisFrame.setVisible(false);
-								new UserFrame(s,u);
-							}
-							else{
-								display("用户名或密码错误");
-							}
+					boolean registerSuccess = userInfo.requestRegister();	
+					if (registerSuccess)
+					{
+						display("注册成功！");
+						//System.out.println("success");
+						//显示在用户主界面
+						//u.setName(textField_name.getName());
+//						u.setPetname(textField_petname.getText().trim());
+//						u.setInfo(textField_info.getText().trim());
+//						thisFrame.setVisible(false);
+						close();
+						new UserFrame();
+					}
+					else{
+						display("用户名或密码错误");
+					}
 				}	
 			} catch (Exception e1) {
 				display("网络连接失败");
@@ -250,5 +247,4 @@ public class RegisterFrame extends JFrame {
 		this.setTitle("注册");
 		this.setVisible(true);
 	}
-	
 }

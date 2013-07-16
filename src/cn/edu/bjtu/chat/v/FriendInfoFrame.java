@@ -126,7 +126,7 @@ public class FriendInfoFrame extends JFrame {
 		label_13.setBounds(30, 332, 46, 15);
 		jContentPane.add(label_13);
 		
-		JLabel label_14 = new JLabel(ufriend.getPower());
+		JLabel label_14 = new JLabel(String.valueOf(ufriend.getPower()));
 		label_14.setBounds(76, 329, 177, 21);
 		jContentPane.add(label_14);
 		

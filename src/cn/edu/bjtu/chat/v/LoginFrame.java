@@ -39,19 +39,14 @@ public class LoginFrame extends JFrame {
 	private static final long serialVersionUID = 1L;
 
 	private JPanel jContentPane = null;
-
 	private JLabel lu = null;
-
 	private JTextField tu = null;
-
 	private JLabel lp = null;
-
 	private JButton b1 = null;
-
 	private JButton registerButton = null;
-	private JLabel label;
-	private JLabel lblNewLabel;
-	private JPasswordField tp;
+	private JLabel label = null;
+	private JLabel lblNewLabel = null;
+	private JPasswordField tp = null;
 
 	/**
 	 * This is the default constructor
@@ -69,12 +64,10 @@ public class LoginFrame extends JFrame {
 	 */
 	private void initialize() {
 		this.setSize(360, 298);
-		//this.setLocation(250,280);
-		//this.setResizable(false);
 		this.setTitle("登录");
 		this.setDefaultCloseOperation(3);
 		this.setContentPane(getJContentPane());
-		//this.setUndecorated(true);
+		//this.setUndecorated(true);//取消边框
 		this.setIconImage(Toolkit.getDefaultToolkit().getImage("E:\\\u5B66\u4E60\\\u5B9E\u8BAD\\2013-\u5B9E\u8BAD2\\QQ\\images\\QQ\u622A\u56FE20130714232000.jpg"));
 		//this.setOpaque(false);
 		this.setVisible(true);
@@ -140,6 +133,7 @@ public class LoginFrame extends JFrame {
 	public void close(){
 		this.setVisible(false);
 	}
+	
 	private JButton getB1() {
 		if (b1 == null) {
 			b1 = new JButton();
@@ -152,7 +146,6 @@ public class LoginFrame extends JFrame {
 							display("有空值，请重新输入");
 						}
 						else {
-							
 							//登陆
 							UserInfo userInfo = UserInfo.getInstance();
 							userInfo.setName(tu.getText());
@@ -162,27 +155,23 @@ public class LoginFrame extends JFrame {
 							if (loginSuccess) {
 								if(userInfo.isAdmin()){
 									close();
-									AdminFrame m = new AdminFrame();
+									new AdminFrame();
 									System.out.println("adminFrame");
 								}
 								else{
-										close();
-										new UserFrame();
+									close();
+									new UserFrame();
 										//JLabel petnameL = new JLabel();
 										//petnameL.setText(v[1]);
-										
 										//P2PChat q = new P2PChat(u,s);
 										//Thread t = new LoginThread(s,u);
 										//t.start();	
 									}
 							}
-							
 							else{
 								display("用户名或密码错误");
 							}
 						}
-						
-			
 					} catch (Exception e1) {
 						display("网络连接失败");
 						System.out.println(e1.getMessage());
@@ -205,11 +194,9 @@ public class LoginFrame extends JFrame {
 				public void actionPerformed(java.awt.event.ActionEvent e){
 
 					close();
-
 					new RegisterFrame();
 					}
 				});
-			
 			registerButton.setBounds(new Rectangle(221, 198, 93, 35));
 			registerButton.setText("注册");
 		}
