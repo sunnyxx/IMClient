@@ -12,7 +12,9 @@ import cn.edu.bjtu.chat.m.pojo.Friends;
 import cn.edu.bjtu.chat.m.pojo.UserInfo;
 
 import java.awt.Font;
+import java.io.IOException;
 import java.net.Socket;
+import java.net.UnknownHostException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -23,14 +25,13 @@ public class FriendInfoFrame extends JFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 	private JPanel jContentPane = new JPanel();
-	private Socket s = null;
+	private Socket socket = null;
 	private UserInfo u = null;
 	private UserInfo ufriend = null;
 	private Friends friend = null;
 	
-	public FriendInfoFrame(Socket s, Friends friend) {
+	public FriendInfoFrame(Friends friend) {
 		super();
-		this.s = s;
 		this.friend = friend;
 		this.u.setName(friend.getName());
 		this.u.setName(friend.getFriendname());
@@ -42,16 +43,27 @@ public class FriendInfoFrame extends JFrame {
 		this.setContentPane(getJContentPane());
 		jContentPane.setLayout(null);
 		
+		try {
+			//socket = new Socket("localhost",4007);
+			socket = new Socket("192.168.1.101",4008);
+		} catch (UnknownHostException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		JButton btnNewButton = new JButton("头像");
 		btnNewButton.setBounds(10, 10, 87, 73);
 		jContentPane.add(btnNewButton);
 		
 		JLabel label = new JLabel("\u5907\u6CE8:");
-		label.setBounds(161, 10, 39, 24);
+		label.setBounds(20, 93, 39, 24);
 		jContentPane.add(label);
 		
 		JLabel lblNewLabel = new JLabel("\u9B45\u529B\u503C:");
-		lblNewLabel.setBounds(28, 93, 46, 24);
+		lblNewLabel.setBounds(20, 118, 46, 24);
 		jContentPane.add(lblNewLabel);
 		
 		JComboBox<String> stateComboBox = new JComboBox<String>();
@@ -71,7 +83,7 @@ public class FriendInfoFrame extends JFrame {
 		jContentPane.add(lblId);
 		
 		JLabel label_2 = new JLabel("真实姓名:");
-		label_2.setBounds(18, 127, 54, 15);
+		label_2.setBounds(10, 152, 54, 15);
 		jContentPane.add(label_2);
 		
 		JLabel label_3 = new JLabel("性别:");
@@ -87,7 +99,7 @@ public class FriendInfoFrame extends JFrame {
 		jContentPane.add(label_1);
 		
 		JLabel label_5 = new JLabel("昵称:");
-		label_5.setBounds(28, 155, 46, 15);
+		label_5.setBounds(153, 13, 46, 15);
 		jContentPane.add(label_5);
 		
 		JLabel lable_mail = new JLabel(ufriend.getMail());
@@ -99,11 +111,11 @@ public class FriendInfoFrame extends JFrame {
 		jContentPane.add(label_6);
 		
 		JLabel label_7 = new JLabel(ufriend.getName());
-		label_7.setBounds(76, 124, 177, 21);
+		label_7.setBounds(74, 149, 177, 21);
 		jContentPane.add(label_7);
 		
 		JLabel label_8 = new JLabel(ufriend.getPetname());
-		label_8.setBounds(74, 152, 177, 21);
+		label_8.setBounds(199, 10, 85, 21);
 		jContentPane.add(label_8);
 		
 		JLabel label_9 = new JLabel(ufriend.getInfo());
@@ -126,7 +138,7 @@ public class FriendInfoFrame extends JFrame {
 		label_13.setBounds(30, 332, 46, 15);
 		jContentPane.add(label_13);
 		
-		JLabel label_14 = new JLabel(String.valueOf(ufriend.getPower()));
+		JLabel label_14 = new JLabel(ufriend.getPower());
 		label_14.setBounds(76, 329, 177, 21);
 		jContentPane.add(label_14);
 		
@@ -142,21 +154,21 @@ public class FriendInfoFrame extends JFrame {
 	    long hour=(timeLong/(60*60*1000)-day*24);
 	    long min=((timeLong/(60*1000))-day*24*60-hour*60);
 	    long sec=(timeLong/1000-day*24*60*60-hour*60*60-min*60);
-		JLabel label_16 = new JLabel(""+day+"天"+hour+"小时"+min+"分"+s+"秒");
+		JLabel label_16 = new JLabel(""+day+"天"+hour+"小时"+min+"分"+socket+"秒");
 		label_16.setBounds(101, 357, 152, 21);
 		jContentPane.add(label_16);
 		
 		JLabel label_19 = new JLabel(String.valueOf(friend.getValue()));
-		label_19.setBounds(76, 95, 124, 21);
+		label_19.setBounds(68, 120, 124, 21);
 		jContentPane.add(label_19);
 		
 		JButton button = new JButton("\u67E5\u770B");
 		button.setFont(new Font("微软雅黑", Font.PLAIN, 10));
-		button.setBounds(210, 94, 54, 24);
+		button.setBounds(202, 119, 54, 24);
 		jContentPane.add(button);
 		
 		JLabel label_20 = new JLabel(friend.getRemark());
-		label_20.setBounds(206, 12, 78, 21);
+		label_20.setBounds(68, 95, 78, 21);
 		jContentPane.add(label_20);
 		this.setTitle("\u597D\u53CB\u8BE6\u7EC6\u4FE1\u606F");
 		this.setVisible(true);

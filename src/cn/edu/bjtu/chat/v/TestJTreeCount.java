@@ -171,8 +171,29 @@ public class TestJTreeCount {
 
 
 
-
-
+//
+//boolean flag = false;
+//String nodeString = dmtnRoot.getFirstLeaf().toString();
+//DefaultMutableTreeNode temp = new DefaultMutableTreeNode();  
+//for (int k = 0; k < dmtnRoot.getChildCount(); k++) {
+//	if (v[4].endsWith(nodeString)) {
+//		flag = true;
+//		temp = dmtnRoot;
+//		break;
+//	}
+//	nodeString = dmtnRoot.getNextLeaf().toString();
+//	//dmtnRoot++;
+//}
+//if (flag == true) {
+//	temp.add(dmtnLeaf);
+//}
+//else {
+//	DefaultMutableTreeNode newGroup = new DefaultMutableTreeNode(v[4]);
+//	newGroup.add(dmtnLeaf);
+//}
+// dmtnOnlineUsersRoot.add(dmtnLeaf);  
+//dmtnRoot.add(dmtnOnlineUsersRoot);  
+//dmtnRoot.add(dmtnMyGroup);  
 
 
 //package cn.edu.bjtu.chat.v;  

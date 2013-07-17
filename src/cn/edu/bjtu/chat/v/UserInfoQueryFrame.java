@@ -26,11 +26,12 @@ public class UserInfoQueryFrame extends JFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 	private JPanel jContentPane = new JPanel();
-	private UserInfo u = UserInfo.getInstance();
-	private Socket s = ;
+	private UserInfo u = null;
+	//private Socket socket = null;
 
-	public UserInfoQueryFrame() {
+	public UserInfoQueryFrame(UserInfo u) {
 		super();
+		this.u = u;
 		initialize();
 	}
 //	public UserInfoQueryFrame(Socket s, UserInfo u) {
@@ -157,14 +158,14 @@ public class UserInfoQueryFrame extends JFrame {
 	    long sec=(timeLong/1000-day*24*60*60-hour*60*60-min*60);
 	      // System.out.println(""+day+"天"+hour+"小时"+min+"分"+sec+"秒");
 		
-		JLabel label_18 = new JLabel(""+day+"天"+hour+"小时"+min+"分"+s+"秒");
+		JLabel label_18 = new JLabel(""+day+"天"+hour+"小时"+min+"分"+sec+"秒");
 		label_18.setBounds(76, 357, 188, 21);
 		jContentPane.add(label_18);
 		
 		JButton btnNewButton_1 = new JButton("修改");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new UserInfoModifyFrame(s,u);
+				new UserInfoModifyFrame(u);
 			}
 		});
 		btnNewButton_1.setBounds(10, 428, 70, 23);

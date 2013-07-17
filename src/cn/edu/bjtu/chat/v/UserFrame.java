@@ -9,9 +9,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
-import java.net.PortUnreachableException;
 import java.net.Socket;
-import java.net.UnknownHostException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -45,9 +43,10 @@ public class UserFrame extends JFrame {
 	private JLabel jLabel1 = null;
 	private JButton jButton2 = null;
 	private JTextField infoL;
-	private UserInfo userInfo = null;
+	private UserInfo u = null;
+	private Socket socket = null;
 	
-	 private JPanel jframeFriendList = null;
+	// private JPanel jframeFriendList = null;
 	 private JPanel jframeFriendList_1;
 	 private JPanel jpanelFrendList = null;
 	 private JButton jbtnOnlineFriendList = null; 
@@ -63,17 +62,20 @@ public class UserFrame extends JFrame {
 	 private DefaultMutableTreeNode dmtnOnlineUsersRoot = null;
 	 private DefaultMutableTreeNode dmtnMyGroup = null;
 	 private DefaultMutableTreeNode dmtnUnknownUsers  = null;
-	 private DefaultMutableTreeNode dmtnBlackName = null;
+	 private DefaultMutableTreeNode dmtnMyclassmate = null;
+	 private DefaultMutableTreeNode dmtnMyfamily = null;
 	 // 设置节点(此节点为好友列表节点)
 	 private DefaultMutableTreeNode dmtnLeaf = null;
-	 private DefaultMutableTreeNode dmtnGroup = null;
+	 private DefaultMutableTreeNode dmtnGroup = null; 
+     
     
 	/**
 	 * This is the default constructor
 	 */
-	public UserFrame() {
+	public UserFrame(Socket socket, UserInfo u) {
 		super();
-		userInfo = UserInfo.getInstance();//u只申明，没有new，所以两者指向同一个对象
+		this.u = u;
+		this.socket = socket;
 		initialize();
 	}
 	/**
@@ -122,7 +124,7 @@ public class UserFrame extends JFrame {
 			jContentPane.add(getPicButton(), null);
 			jContentPane.add(petnameLable, null);
 			
-			JLabel petnameL = new JLabel(userInfo.getPetname());
+			JLabel petnameL = new JLabel(u.getPetname());
 			petnameL.setBounds(220, 10, 64, 21);
 			jContentPane.add(petnameL);
 			jContentPane.add(infoLabel, null);
@@ -140,10 +142,17 @@ public class UserFrame extends JFrame {
 			jbtnOnlineFriendList.setEnabled(false);
 			//System.out.println("end");
 			
-			infoL = new JTextField(userInfo.getInfo());
+			infoL = new JTextField(u.getInfo());
 			infoL.setBounds(152, 51, 131, 18);
 			jContentPane.add(infoL);
 			infoL.setColumns(10);
+			
+			
+			//this.setJMenuBar(remindmenu);
+			
+			//jContentPane.add(getJPanel(), null);
+			//jContentPane.add(remindPanel);
+		
 		}
 		return jContentPane;
 	}
@@ -160,51 +169,51 @@ public class UserFrame extends JFrame {
 			picButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					try {
-//						String request = "106|"+userInfo.getName();
-//						PrintStream p = new PrintStream(s.getOutputStream());
-//						p.println(request);
-//						p.flush();
-//						//接收服务器端的回值
-//						//System.out.println("接收服务器端的回值");
-//						InputStreamReader i =new InputStreamReader(s.getInputStream());
-//						BufferedReader b = new BufferedReader(i);
-//						String response = b.readLine();
-//						
-//						int index = response.indexOf("|");
-//						String head = response.substring(0,index);
-//						//查询用户信息  根据用户的昵称
-//						//查询用户信息的协议 106|状态\0昵称\0ID\0姓名\0个人签名\0性别\0邮箱\0年龄\0注册时间\0权限
-//						if(head.equals("true")){
-//							String ss = response.substring(index+1);
-//							String v[] = ss.split("\\|\\|");
-//							
-//							userInfo.setState(Integer.parseInt(v[0]));
-//							userInfo.setPetname(v[1]);
-//							userInfo.setId(Integer.parseInt(v[2]));
-//							userInfo.setName(v[3]);
-//							userInfo.setInfo(v[4]);
-//							userInfo.setSex(v[5]);
-//							userInfo.setMail(v[6]);
-//							userInfo.setAge(Integer.parseInt(v[7]));
-//							
-//							SimpleDateFormat df = new SimpleDateFormat("yyyy-mm-dd HH:MM:SS");
-//							v[8] = df.format(new Date());
-//							Timestamp creaTimestamp = Timestamp.valueOf(v[8]);
-//							userInfo.setCreatetime(creaTimestamp);
-//							userInfo.setPower(v[9]);
-//							
-//							new UserInfoQueryFrame(s,userInfo);
-//						}
-//					} catch (IOException e1) {
-//						// TODO Auto-generated catch block
-//						e1.printStackTrace();
-//					} catch (Exception e1) {
-//						// TODO Auto-generated catch block
-//						e1.printStackTrace();
-//						display("网络连接失败");
-//					}
-//				}
-//			});
+						String request = "106|"+u.getName();
+						PrintStream p = new PrintStream(socket.getOutputStream());
+						p.println(request);
+						p.flush();
+						//接收服务器端的回值
+						//System.out.println("接收服务器端的回值");
+						InputStreamReader i =new InputStreamReader(socket.getInputStream());
+						BufferedReader b = new BufferedReader(i);
+						String response = b.readLine();
+						
+						int index = response.indexOf("|");
+						String head = response.substring(0,index);
+						//查询用户信息  根据用户的昵称
+						//查询用户信息的协议 106|状态\0昵称\0ID\0姓名\0个人签名\0性别\0邮箱\0年龄\0注册时间\0权限
+						if(head.equals("true")){
+							String ss = response.substring(index+1);
+							String v[] = ss.split("\\|\\|");
+							
+							u.setState(Integer.parseInt(v[0]));
+							u.setPetname(v[1]);
+							u.setId(Integer.parseInt(v[2]));
+							u.setName(v[3]);
+							u.setInfo(v[4]);
+							u.setSex(v[5]);
+							u.setMail(v[6]);
+							u.setAge(Integer.parseInt(v[7]));
+							
+							SimpleDateFormat df = new SimpleDateFormat("yyyy-mm-dd HH:MM:SS");
+							v[8] = df.format(new Date());
+							Timestamp creaTimestamp = Timestamp.valueOf(v[8]);
+							u.setCreatetime(creaTimestamp);
+							u.setPower(v[9]);
+							
+							new UserInfoQueryFrame(u);
+						}
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} catch (Exception e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+						display("网络连接失败");
+					}
+				}
+			});
 		}
 		return picButton;
 	}
@@ -229,7 +238,7 @@ public class UserFrame extends JFrame {
 			
 			stateComboBox.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					userInfo.setState(stateComboBox.getSelectedIndex());
+					u.setState(stateComboBox.getSelectedIndex());
 				}
 			});
 			
@@ -301,14 +310,16 @@ public class UserFrame extends JFrame {
         dmtnOnlineUsersRoot = new DefaultMutableTreeNode("我的好友"); 
         dmtnMyGroup = new DefaultMutableTreeNode("我的群");  
         dmtnUnknownUsers = new DefaultMutableTreeNode("陌生人"); 
-        dmtnBlackName = new DefaultMutableTreeNode("黑名单");  
+        dmtnMyclassmate = new DefaultMutableTreeNode("我的同学");
+        dmtnMyfamily = new DefaultMutableTreeNode("我的家人");  
         dmtnGroup = new DefaultMutableTreeNode("群聊");  
         
         //System.out.println("add nodes");
         dmtnRoot.add(dmtnOnlineUsersRoot);  
         dmtnRoot.add(dmtnMyGroup);  
         dmtnRoot.add(dmtnUnknownUsers);  
-        dmtnRoot.add(dmtnBlackName);  
+        dmtnRoot.add(dmtnMyclassmate);  
+        dmtnRoot.add(dmtnMyfamily);
         dmtnMyGroup.add(dmtnGroup);  
         jscrollPaneOnlineFriendList = new JScrollPane(jlistOnlineFriendList);  
          jscrollPaneOnlineFriendList.getViewport()  
@@ -356,36 +367,34 @@ public class UserFrame extends JFrame {
                             .getLastSelectedPathComponent().toString(); 
                     if (e.getClickCount() == 2 && count != 0  
                             && !strFriendUsername.equals("陌生人")  
-                            && !strFriendUsername.equals("黑名单")  
                             && !strFriendUsername.equals("我的群")) { 
                         if (jtree.isRowSelected(jtree.getRowForLocation(  
                                 e.getX(), e.getY()))) {  
                         	UserInfo friendInfo = new UserInfo();
                         	friendInfo.setName(strFriendUsername);
-                        	new P2PChat(friendInfo, s);//
+                        	new P2PChat(u,friendInfo, socket);//
                             System.out.println("你双击了：" + strFriendUsername);  
                         } 
                     }  
                 }  
             }  
         });     
+        setOnlineList();
         return jframeFriendList_1;
 	}
 	
 	 //显示好友分组
-    public class actionl implements ActionListener{
-
-		public void actionPerformed(ActionEvent arg0) {
+	public void setOnlineList() {
 			//查询好友及分组信息  根据用户的昵称
 			//查询好友及分组信息 113|姓名\0好友名\0成为好友时间\0魅力值\0所在组\0备注\0好友数
-			String request = "113|"+userInfo.getName(); //给服务器
+			String request = "113|"+u.getName(); //给服务器
 			try {
-				PrintStream p = new PrintStream(s.getOutputStream());
+				PrintStream p = new PrintStream(socket.getOutputStream());
 				p.println(request);
 				p.flush();
 				//System.out.println("flush");
 				//接收服务器端的回值
-				InputStreamReader i =new InputStreamReader(s.getInputStream());
+				InputStreamReader i =new InputStreamReader(socket.getInputStream());
 				BufferedReader b = new BufferedReader(i);
 				String response = b.readLine();
 				
@@ -399,44 +408,36 @@ public class UserFrame extends JFrame {
 				    String ss = response.substring(index+1); 
 				    String onlineUsers = null;
 				    String v[] = ss.split("\\|\\|");
+				    
 				    for (int j = 0; j < Integer.parseInt(v[6]); j++) {  
-				        onlineUsers = v[j];  
-				        dmtnLeaf = new DefaultMutableTreeNode(onlineUsers);  
-				        boolean flag = false;
-				        String nodeString = dmtnRoot.getFirstLeaf().toString();
-				        DefaultMutableTreeNode temp = new DefaultMutableTreeNode();  
-				        for (int k = 0; k < dmtnRoot.getChildCount(); k++) {
-							if (v[4].endsWith(nodeString)) {
-								flag = true;
-								temp = dmtnRoot;
-								break;
-							}
-							nodeString = dmtnRoot.getNextLeaf().toString();
-							//dmtnRoot++;
+				        onlineUsers = v[1]; 
+				        System.out.println(v[4]);
+				        if (v[4].equals("我的好友")) {
+				        	dmtnLeaf = new DefaultMutableTreeNode(onlineUsers); 
+				            dmtnOnlineUsersRoot.add(dmtnLeaf);				        	
 						}
-				        if (flag == true) {
-				        	temp.add(dmtnLeaf);
+				        else if (v[4].equals("我的同学")) {
+				        	dmtnLeaf = new DefaultMutableTreeNode(onlineUsers); 
+				        	dmtnMyclassmate.add(dmtnLeaf);
+						}
+				        else if (v[4].equals("我的家人")){
+				        	dmtnLeaf = new DefaultMutableTreeNode(onlineUsers); 
+				        	dmtnMyfamily.add(dmtnLeaf);
 						}
 				        else {
-				        	DefaultMutableTreeNode newGroup = new DefaultMutableTreeNode(v[4]);
-				        	newGroup.add(dmtnLeaf);
+				        	dmtnLeaf = new DefaultMutableTreeNode(onlineUsers); 
+				        	dmtnUnknownUsers.add(dmtnLeaf);
 						}
-				       // dmtnOnlineUsersRoot.add(dmtnLeaf);  
-				        //dmtnRoot.add(dmtnOnlineUsersRoot);  
-				        //dmtnRoot.add(dmtnMyGroup);  
 				    }  
 				    jtree.updateUI(); 
+				
 				}
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-//					p.println("113|"+f.getName()+":"+f.getFriendname()+":"+f.getBftime()
-//							+":"+f.getValue()+":"+f.getGroup()+":"+f.getRemark());
-////					System.out.println(f.getName()+":"+f.getFriendname()+":"+f.getBftime()
-////							+":"+f.getValue()+":"+f.getGroup()+":"+f.getRemark());	
 		}
-    }
-			
+    
+}			
 //	        // 关闭事件  
 //	        jframeFriendList.addAncestorListener(new WindowAdapter() {  
 //	        
@@ -446,5 +447,6 @@ public class UserFrame extends JFrame {
 //	                System.exit(0);  
 //	            }  
 //	        });  
-//	  
-}
+
+//
+    
