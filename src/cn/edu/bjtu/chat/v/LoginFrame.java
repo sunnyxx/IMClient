@@ -5,15 +5,6 @@ import java.awt.Font;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintStream;
-import java.net.Socket;
-import java.net.UnknownHostException;
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -23,14 +14,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import com.neusoft.test.c.GetThread;
-import com.neusoft.test.pojo.Userinfo;
-import com.neusoft.test.v.MainFrame;
-import com.neusoft.test.v.QQ;
-
-import cn.edu.bjtu.chat.c.LoginThread;
 import cn.edu.bjtu.chat.m.pojo.UserInfo;
-import cn.edu.bjtu.chat.util.Network;
 
 import javax.swing.JPasswordField;
 
@@ -142,7 +126,7 @@ public class LoginFrame extends JFrame {
 			b1.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
 					try {
-						if (tu.getText().trim().equals("") || tp.getText().trim().equals("")) {
+						if (tu.getText().trim().equals("") || tp.getPassword().toString().trim().equals("")) {
 							display("有空值，请重新输入");
 						}
 						else {
