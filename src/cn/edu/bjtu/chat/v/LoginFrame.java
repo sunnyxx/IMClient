@@ -5,8 +5,6 @@ import java.awt.Font;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
-<<<<<<< HEAD
-=======
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -17,10 +15,6 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Properties;
-<<<<<<< HEAD
->>>>>>> b30135b79b200f3f39045ba1e3234317d186b12d
-=======
->>>>>>> b30135b79b200f3f39045ba1e3234317d186b12d
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -30,11 +24,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-=======
->>>>>>> b30135b79b200f3f39045ba1e3234317d186b12d
 //import com.neusoft.test.c.GetThread;
 //import com.neusoft.test.pojo.Userinfo;
 //import com.neusoft.test.v.MainFrame;
@@ -42,10 +31,6 @@ import javax.swing.JTextField;
 
 
 import cn.edu.bjtu.chat.c.ReceiveThread;
-<<<<<<< HEAD
->>>>>>> b30135b79b200f3f39045ba1e3234317d186b12d
-=======
->>>>>>> b30135b79b200f3f39045ba1e3234317d186b12d
 import cn.edu.bjtu.chat.m.pojo.UserInfo;
 
 import javax.swing.JPasswordField;
