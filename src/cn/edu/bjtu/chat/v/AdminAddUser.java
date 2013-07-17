@@ -11,7 +11,6 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Properties;
 import java.util.concurrent.ArrayBlockingQueue;
 
 import javax.swing.ButtonGroup;
@@ -31,7 +30,7 @@ import cn.edu.bjtu.chat.m.pojo.UserInfo;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class RegisterFrame extends JFrame {
+public class AdminAddUser extends JFrame {
 	/**
 	 * 
 	 */
@@ -48,25 +47,10 @@ public class RegisterFrame extends JFrame {
 	private JTextField textField_age = null;
 	private JTextField textField_info = null;	
 	private ButtonGroup sexGroup = null;
-	private String ip;
-	private int port;
-	
-	private RegisterFrame registerFrame = this;
-	
-	private void init(){
-		Properties p = new Properties();
-		try {
-			p.load(this.getClass().getResourceAsStream("init.properties"));
-			ip = p.getProperty("ip");
-			port = Integer.parseInt(p.getProperty("port"));
-		} catch (IOException e) {
-			System.out.println("配置文件没找到");
-		}
-	}
-	
-	public RegisterFrame() {
+	private Socket socket = null;
+	private JTextField textField_power;
+	public AdminAddUser() {
 		super();
-		init();
 		initialize();
 	}
 	
@@ -81,6 +65,19 @@ public class RegisterFrame extends JFrame {
 		this.setContentPane(this.jContentPane);//panel需要加载this这个jframe上
 		//this.setUndecorated(true);
 		//this.getContentPane().add(jContentPane);
+
+		try {
+			//socket = new Socket("localhost",4007);
+			socket = new Socket("192.168.1.101",4008);
+		} catch (UnknownHostException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
 		jContentPane.setBounds(0, 0, 308, 432);
 		
 		jContentPane.setVisible(true);
@@ -154,10 +151,10 @@ public class RegisterFrame extends JFrame {
 		JTextArea textArea_info = new JTextArea();
 		jContentPane.add(textArea_info);
 		JScrollPane scrollPane = new JScrollPane(textArea_info);
-		scrollPane.setBounds(66, 251, 177, 67);
+		scrollPane.setBounds(66, 251, 177, 71);
 		jContentPane.add(scrollPane);
 		
-		JButton button = new JButton("注册");
+		JButton button = new JButton("\u6DFB\u52A0");
 		button.setBounds(26, 387, 70, 24);
 		button.addActionListener(new java.awt.event.ActionListener() {
 		//@SuppressWarnings("deprecation")
@@ -205,14 +202,14 @@ public class RegisterFrame extends JFrame {
 //					Timestamp creaTimestamp = Timestamp.valueOf(vTimestamp);
 					
 					//注册 102/用户名/密码/昵称/性别/年龄/个人签名
-					Socket socket = new Socket(ip,port);
 					String request = "102|"+textField_name.getText().trim()+"||"+
 							passwordField.getText() + "||" +
 							textField_petname.getText().trim() +"||" +
 							textField_mail.getText().trim() + "||" +
 							sex + "||" + //性别有问题
 							textField_age.getText().trim() + "||" +
-							textField_info.getText().trim() + "||";
+							textField_info.getText().trim() + "||"
+							;
 					
 							PrintStream p = new PrintStream(socket.getOutputStream());
 							p.println(request);
@@ -229,24 +226,29 @@ public class RegisterFrame extends JFrame {
 							if(head.equals("true"))
 							{
 								display("注册成功！");
-								registerFrame.dispose();
+								//System.out.println("success");
 								//显示在用户主界面
-							//	UserInfo u = new UserInfo();
-							//	u.setName(textField_name.getName());
-								
+								UserInfo u = new UserInfo();
+								u.setName(textField_name.getName());
 //								u.setPetname(textField_petname.getText().trim());
 //								u.setInfo(textField_info.getText().trim());
 //								thisFrame.setVisible(false);
-							//	new UserFrame(u);
+								//new UserFrame(u);
 							}
 							else{
 								display("用户名或密码错误");
 							}
-							socket.close();
 				}	
 			} catch (Exception e1) {
 				display("网络连接失败");
 				System.out.println(e1.getMessage());
+			}finally {
+				try {
+					socket.close();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		}
 	});
@@ -270,8 +272,22 @@ public class RegisterFrame extends JFrame {
 		button_1.setBounds(185, 388, 70, 23);
 		jContentPane.add(button_1);
 		
-		this.setTitle("注册");
+		JLabel label_power = new JLabel("\u6743\u9650:");
+		label_power.setBounds(20, 335, 46, 15);
+		jContentPane.add(label_power);
+		
+		textField_power = new JTextField();
+		textField_power.setBounds(66, 332, 177, 21);
+		jContentPane.add(textField_power);
+		
+		this.setTitle("\u6DFB\u52A0\u7528\u6237");
 		this.setVisible(true);
 		
+		try {
+			socket.close();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 	}
 }

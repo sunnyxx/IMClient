@@ -26,7 +26,7 @@ import cn.edu.bjtu.chat.m.pojo.UserInfo;
 import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
 
-public class UserInfoModifyFrame extends JFrame {
+public class AdminModifyUserInfo extends JFrame {
 	/**
 	 * 
 	 */
@@ -49,8 +49,9 @@ public class UserInfoModifyFrame extends JFrame {
 	private JButton button_1 = null;
 	private JButton button_2 = null;
 	private UserInfo u = null;
+	private JTextField textField;
 	
-	public UserInfoModifyFrame(UserInfo u) {
+	public AdminModifyUserInfo(UserInfo u) {
 		super();
 		this.u = u;
 		initialize();
@@ -139,7 +140,7 @@ public class UserInfoModifyFrame extends JFrame {
 		label_6.setBounds(10, 196, 66, 15);
 		jContentPane.add(label_6);
 		
-		JLabel label_7 = new JLabel("年龄：");
+		JLabel label_7 = new JLabel("\u5E74\u9F84:");
 		label_7.setBounds(20, 312, 46, 15);
 		jContentPane.add(label_7);
 		
@@ -260,7 +261,7 @@ public class UserInfoModifyFrame extends JFrame {
 		});
 
 
-		button.setBounds(38, 375, 70, 24);
+		button.setBounds(0, 387, 76, 24);
 		jContentPane.add(button);
 		
 		button_1 = new JButton("重填");
@@ -277,9 +278,22 @@ public class UserInfoModifyFrame extends JFrame {
 				textField_age.setText(null);
 			}
 		});
-		button_1.setBounds(173, 376, 70, 23);
+		button_1.setBounds(94, 388, 76, 23);
 		jContentPane.add(button_1);
-		this.setTitle("修改个人信息");
+		
+		JLabel label_2 = new JLabel("\u6743\u9650:");
+		label_2.setBounds(20, 345, 46, 15);
+		jContentPane.add(label_2);
+		
+		textField = new JTextField();
+		textField.setColumns(10);
+		textField.setBounds(66, 342, 177, 21);
+		jContentPane.add(textField);
+		
+		JButton btnNewButton_1 = new JButton("\u5220\u9664\u7528\u6237");
+		btnNewButton_1.setBounds(197, 387, 87, 24);
+		jContentPane.add(btnNewButton_1);
+		this.setTitle("\u4FEE\u6539\u7528\u6237\u4FE1\u606F");
 		this.setVisible(true);
 	}
 
@@ -293,5 +307,4 @@ public class UserInfoModifyFrame extends JFrame {
 //		getContentPane().add(button);
 		return jContentPane;
 	}
-		
 }
