@@ -6,6 +6,7 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
@@ -28,6 +29,7 @@ import javax.swing.JTextField;
 //import com.neusoft.test.pojo.Userinfo;
 //import com.neusoft.test.v.MainFrame;
 //import com.neusoft.test.v.QQ;
+
 
 
 import cn.edu.bjtu.chat.c.ReceiveThread;
@@ -90,7 +92,7 @@ public class LoginFrame extends JFrame {
 		this.setDefaultCloseOperation(3);
 		this.setContentPane(getJContentPane());
 		//this.setUndecorated(true);
-		this.setIconImage(Toolkit.getDefaultToolkit().getImage("E:\\\u5B66\u4E60\\\u5B9E\u8BAD\\2013-\u5B9E\u8BAD2\\QQ\\images\\QQ\u622A\u56FE20130714232000.jpg"));
+		this.setIconImage(Toolkit.getDefaultToolkit().getImage("login.jpg"));
 		//this.setOpaque(false);
 		this.setVisible(true);
 	}
@@ -270,7 +272,7 @@ public class LoginFrame extends JFrame {
 	private JLabel getLblNewLabel() {
 		if (lblNewLabel == null) {
 			lblNewLabel = new JLabel(" ");
-			lblNewLabel.setIcon(new ImageIcon("E:\\\u5B66\u4E60\\\u5B9E\u8BAD\\2013-\u5B9E\u8BAD2\\QQ\\images\\login1.jpg"));
+			lblNewLabel.setIcon(new ImageIcon(LoginFrame.class.getResource("/login2.jpg")));
 			lblNewLabel.setBounds(0, 0, 345, 260);
 		}
 		return lblNewLabel;
